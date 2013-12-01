@@ -1,0 +1,79 @@
+@main("Simple Message Privacy", "index") {
+<!--
+    Header
+-->
+
+} {
+<!--
+    Content
+-->
+<h1>Simple Message Privacy</h1>
+
+<h2>Dodge mass internet surveillance<br />by sending your message as an image!</h2>
+
+<form action="/picturize" method="post">
+    <div class="field">
+        <label for="text" class="mdnz-polyfill placeholder">Your message</label><!--
+     --><textarea id="text" name="text" placeholder="Your message"></textarea>
+
+        <p class="field-error" data-check="empty">Please input some text...</p>
+    </div>
+
+    <!-- <div>
+        <button>+</button>
+        <fieldset>
+            <div class="field">
+                <label for="img-width">Image width</label>
+                <input type="number" id="img-width" name="img-width" value="500" required />
+                <span>px</span>
+            </div>
+            <div class="field">
+                <label for="font-size">Font size</label>
+                <input type="number" id="font-size" name="font-size" value="16" required />
+                <span>pt</span>
+            </div>
+        </fieldset>
+    </div> -->
+
+    <div class="submit-wrapper">
+        <input type="submit" value="Convert to image" />
+    </div>
+</form>
+
+<section id="donate">
+    <h2>Please donate</h2>
+
+    <!-- PayPal -->
+    <article>
+        <span class="donate-method">Paypal</span>
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+            <input type="hidden" name="cmd" value="_s-xclick">
+            <input type="hidden" name="hosted_button_id" value="C6E3XPHCDQ8XJ">
+            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+            <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+        </form>
+    </article>
+
+    <article>
+        <span class="donate-method">Bitcoin</span>
+        <span class="donate-address">1BD81aAucKPU26NsYf2sthVgWtR2KjuNYw</span>
+    </article>
+
+    <article>
+        <span class="donate-method">Litecoin</span>
+        <span class="donate-address">LVNYXVhZzkzikbPHLVHW4RaiQP22eut6ux</span>
+    </article>
+</section>
+
+} {
+<!--
+    Javascript
+-->
+<script type="text/javascript">
+    window.addEvent("domready", function () {
+        new CBR.Controllers.Index({
+            el: "#content"
+        }).run();
+    });
+</script>
+}

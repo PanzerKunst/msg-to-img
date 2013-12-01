@@ -1,0 +1,25 @@
+#index {
+  #content {
+    > form {
+      margin-top: 2em;
+    }
+
+    #text {
+      width: 100%;
+    }
+
+    #donate {
+      margin-top: 5em;
+    }
+
+    #paypal-button {
+      text-indent:-9999px;
+
+      width: 75px;
+      height: 25px;
+
+      background-color: transparent;
+      background-image: url("../images/paypal-button.png");
+    }
+  }
+}

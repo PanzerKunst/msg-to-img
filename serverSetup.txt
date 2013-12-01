@@ -1,0 +1,51 @@
+#################
+# Hostname config
+#################
+
+$ sudo vi /etc/hostname
+simplemessageprivacy.net
+
+$ sudo apt-get update
+$ sudo apt-get upgrade
+$ reboot
+
+Check address in "ifconfig"
+
+$ sudo vi /etc/hosts
+172.31.38.234 mailer.reportingfromtheborderland.net mailer #address from “ifconfig”
+
+
+#################
+# Add normal user
+#################
+
+$ adduser play
+
+Add "play" in the list of sudoers. As root:
+$ adduser play sudo
+
+
+######################
+# Add missing packages
+######################
+
+$ sudo apt-get install openjdk-7-jdk screen unzip
+
+
+############
+# Web server
+############
+
+DL and unzip Play Framework
+
+Add Play dir to PATH:
+$ sudo vi ~/.profile
+
+Add line:
+export PATH=$PATH:~/play-2.2.1
+
+Re-exec the file:
+$ source ~/.profile
+
+Because only root can bind to port 80, redirect it to port 9000:
+$ sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 9000

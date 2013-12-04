@@ -1,0 +1,23 @@
+@mixin desktop {
+  @media screen and (min-width: 49em) {
+    @content;
+  }
+}
+
+@mixin ellipsis($whiteSpace: nowrap) {
+  white-space: $whiteSpace;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+// Retina sprite mixin and function inspired by Paul Stamatiou (http://paulstamatiou.com/responsive-retina-blog-development-part-2)
+
+@mixin hdpiSprite {
+  @include retina-image($spriteUrl, 500px 50px);  // Sprite dimensions, halved
+}
+// silly function to divide the width and height to save me 2 seconds
+// whenever I need to calculate the halved retina background position
+@function halfPos($w, $h) {
+  @return $w/2 $h/2;
+}

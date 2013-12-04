@@ -1,0 +1,107 @@
+#index {
+  #content {
+    > form {
+      margin-top: $line-height-computed;
+    }
+
+    .field {
+      margin-bottom: 0;
+    }
+
+    #text {
+      width: 100%;
+    }
+
+    #donate {
+      margin-top: $line-height-computed * 3;
+
+      // Same margin and width declarations as for a form field
+      margin-left: auto;
+      margin-right: auto;
+
+      width: $fieldWidth;
+
+      @include desktop {
+        width: $fieldWidthDesktop;
+      }
+
+      > h2 {
+        margin-bottom: $line-height-computed;
+      }
+
+      > article {
+        @include clearfix;
+
+        margin-bottom: $line-height-computed/4;
+
+        // Negative right margin to use the whole page width
+        margin-right: -$pageSidePadding;
+      }
+    }
+
+    .donate-method,
+    #paypal-button,
+    .donate-address {
+      float: left;
+    }
+
+    #paypal-button,
+    .donate-address {
+      margin-left: 0.5em;
+    }
+
+    .donate-method {
+      @include hide-text;
+
+      background: transparent url($spriteUrl) no-repeat scroll 0 0;
+
+      $donateIconSize: 25px;
+      width: $donateIconSize;
+      height: $donateIconSize;
+
+      @include hdpiSprite;
+
+      &.paypal {
+        background-position: -100px 0;
+
+        @include hidpi {
+          background-position: halfPos(-100px, 0);
+        }
+      }
+
+      &.litecoin {
+        background-position: -200px 0;
+
+        @include hidpi {
+          background-position: halfPos(-200px, 0);
+        }
+      }
+    }
+
+    #paypal-button {
+      margin-top: 0.15em;
+    }
+
+    .donate-address {
+      // To make sure it's displayed over one line on 320px wide
+      font-size: 13px;
+
+      // For the text to be horizontally aligned with the icon
+      margin-top: 0.2em;
+
+      @include desktop {
+        font-size: $fontSizeBodyDesktop;
+        margin-top: 0.1em;
+      }
+    }
+
+    .list-header {
+      margin-top: $line-height-computed;
+      margin-bottom: 0;
+    }
+
+    li {
+      margin-bottom: 0;
+    }
+  }
+}

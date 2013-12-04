@@ -1,0 +1,132 @@
+html,
+body {
+  // For footer at the bottom
+  height: 100%;
+}
+
+html {
+  // Always display the vertical scrollbar
+  overflow-y: scroll;
+}
+
+body {
+  background-color: $pearl;
+  background: url('images/bg-content.png') repeat;
+
+  font-family: "Open-Sans", sans-serif;
+
+  @include desktop {
+    font-size: $fontSizeBodyDesktop;
+  }
+}
+
+h1,
+h2 {
+  text-align: center;
+  text-rendering: optimizelegibility;
+  font-smoothing: antialiased;
+}
+
+h1 {
+  padding: $line-height-computed/2 0 $line-height-computed 0;
+  margin: 0;
+
+  font-family: "Oxygen-Bold", sans-serif;
+  font-size: $font-size-h2;
+
+  @include desktop {
+    font-size: $font-size-h1;
+
+    padding: $line-height-computed*2 0;
+  }
+}
+
+h2 {
+  // Negative left and right margins to use the whole page width
+  margin: 0 (-$pageSidePadding) ($line-height-computed/2) (-$pageSidePadding);
+
+  font-family: "Oxygen", sans-serif;
+  font-size: $font-size-h4;
+
+  @include desktop {
+    font-size: $font-size-h3;
+  }
+}
+
+p,
+ul {
+  margin-bottom: $line-height-computed;
+}
+
+p,
+li {
+  line-height: 1.75em;
+}
+
+p {
+  text-align: justify;
+}
+
+li {
+  margin-bottom: $line-height-computed / 2;
+}
+
+a,
+a:visited {
+  text-decoration: none;
+  color: $purple;
+}
+
+a:hover,
+a:focus {
+  color: $purple;
+}
+
+a,
+span {
+  display: inline-block;  // For "width" declaration to work
+}
+
+$footerHeight: 2em;
+
+footer {
+  // For footer at the bottom
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: $footerHeight;
+
+  background: $purple;
+  color: white;
+
+  text-align: center;
+
+  a,
+  a:visited,
+  a:hover,
+  a:focus {
+    color: white;
+    text-decoration: underline;
+
+    margin: 0.2em 1em;
+  }
+}
+
+#container {
+  // For footer at the bottom
+  min-height: 100%;
+  position: relative;
+}
+
+#content {
+  padding-bottom: $footerHeight * 2;
+}
+
+.mdnz-polyfill {
+  display: none;
+}
+
+.list-header {
+  margin-bottom: $line-height-computed / 2;
+}

@@ -1,0 +1,19 @@
+.btn {
+  background-color: $purple;
+}
+
+.btn,
+.btn:hover,
+.btn:focus {
+  color: white;
+}
+
+textarea.form-control {
+  resize: vertical;
+  height: 8em;
+}
+
+.form-control:focus {
+  border-color: $purple;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px transparentize($purple, 0.7);
+}

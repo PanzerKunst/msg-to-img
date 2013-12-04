@@ -41,11 +41,60 @@ DL and unzip Play Framework
 Add Play dir to PATH:
 $ sudo vi ~/.profile
 
-Add line:
+Add lines:
 export PATH=$PATH:~/play-2.2.1
+export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
 
 Re-exec the file:
 $ source ~/.profile
 
-Because only root can bind to port 80, redirect it to port 9000:
-$ sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 9000
+Because only root can bind to port 443, redirect 443 to port 9443:
+$ sudo iptables -t nat -A PREROUTING -p tcp --dport 443 -j REDIRECT --to-port 9443
+
+
+##############################################################
+# Create server SSL certificate and create .cer from 3rd party
+##############################################################
+
+$ openssl req -new -newkey rsa:2048 -nodes -keyout simplemessageprivacy.key -out simplemessageprivacy.csr
+For "Common Name (e.g. server FQDN or YOUR name)", enter "www.simplemessageprivacy.net"
+
+Copy key received by email into file ~/ssl_cert.cer
+
+
+#######################################
+# Import trusted cert into new keystore
+#######################################
+
+$ keytool -genkey -keyalg RSA -alias SimpleMessagePrivacy -keystore simplemessageprivacy.jks
+
+Create PKCS12 keystore from private key and public certificate.
+$ openssl pkcs12 -export -name SimpleMessagePrivacy -in ssl_cert.cer -inkey simplemessageprivacy.key -out keystore.p12
+
+Convert PKCS12 keystore into a JKS keystore
+$ keytool -importkeystore -destkeystore simplemessageprivacy.jks -srckeystore keystore.p12 -srcstoretype pkcs12 -alias SimpleMessagePrivacy
+
+
+####################################
+# Add intermediate certs to keystore
+####################################
+
+As explained at https://knowledge.rapidssl.com/support/ssl-certificate-support/index?page=content&actp=CROSSLINK&id=SO16181 :
+$ vi primary_inter.cer
+Paste contents of https://knowledge.rapidssl.com/library/VERISIGN/INTERNATIONAL_AFFILIATES/RapidSSL/AR1548/Geotrust%20Cross%20Root%20CA.txt
+
+$ keytool -import -trustcacerts -alias primaryIntermediate -keystore simplemessageprivacy.jks -file primary_inter.cer
+
+$ vi secondary_inter.cer
+Paste contents of https://knowledge.rapidssl.com/library/VERISIGN/INTERNATIONAL_AFFILIATES/RapidSSL/AR1548/Rapid%20SSL%20CA.txt
+
+$ keytool -import -trustcacerts -alias secondaryIntermediate -keystore simplemessageprivacy.jks -file secondary_inter.cer
+
+
+##################
+# Start web server
+##################
+
+Inside app dir, run:
+$ play
+$ start -Dhttp.port=disabled -Dhttps.port=9443 -Dhttps.keyStore=/home/play/simplemessageprivacy.jks -Dhttps.keyStorePassword=

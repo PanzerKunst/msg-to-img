@@ -9,12 +9,12 @@ object Application extends Controller {
     Ok(views.html.index())
   }
 
-  def softwareDeveloper = Action {
-    Ok(views.html.index())
+  def about = Action {
+    Ok(views.html.about())
   }
 
-  // Accept only 20KB of data.
-  def picturize = Action(parse.urlFormEncoded(20 * 1024)) { request =>
+  // Accept only 30KB of data.
+  def picturize = Action(parse.urlFormEncoded(30 * 1024)) { request =>
     request.body.get("text") match {
       case Some(stringSeq) =>
         stringSeq.headOption match {

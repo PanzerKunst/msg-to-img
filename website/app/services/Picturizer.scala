@@ -10,12 +10,16 @@ import scala.List
 class Picturizer {
   val leftPadding = 10
   val topPadding = 10
-  val bottomPadding = topPadding
+  val bottomMsgPadding = topPadding
+  val watermarkHeight = 50
+  val watermarkLeftPadding = 65
+  val watermarkText = "Image generated at www.simplemessageprivacy.net"
 
   var imgWidth: Int = _
   var fontSize: Int = _
   var font: Font = _
   var fontMetrics: FontMetrics = _
+  var watermarkFont: Font = _
 
   def this(imgWidth: Int, fontSize: Int) = {
     this()
@@ -24,13 +28,15 @@ class Picturizer {
     this.fontSize = fontSize
     this.font = new Font("Arial", Font.PLAIN, fontSize)
     this.fontMetrics = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB).getGraphics.getFontMetrics(font)
+    this.watermarkFont = new Font("Arial", Font.ITALIC, fontSize)
   }
 
   def picturize(text: String): Array[Byte] = {
     val shortLines = convertToShortLines(text)
-    val imgHeight = (fontSize + topPadding) * shortLines.length + bottomPadding
+    val imgHeight = (fontSize + topPadding) * shortLines.length + bottomMsgPadding + watermarkHeight
     val (image, graphics) = initImage(imgHeight)
     drawLines(shortLines, graphics)
+    drawWatermark(imgHeight - bottomMsgPadding, graphics)
 
     toBytes(image)
   }
@@ -53,7 +59,7 @@ class Picturizer {
     graphics.setColor(Color.WHITE)
     graphics.fillRect(0, 0, image.getWidth, image.getHeight)
 
-    // Set font colour
+    // Set font
     graphics.setColor(Color.BLACK)
     graphics.setFont(font)
 
@@ -70,6 +76,14 @@ class Picturizer {
       graphics.drawString(shortLine.mkString(" "), leftPadding, topSpace)
       topSpace = topSpace + fontSize + topPadding
     }
+  }
+
+  private def drawWatermark(x: Int, graphics: Graphics2D) {
+    // Set watermark font
+    graphics.setColor(Color.GRAY)
+    graphics.setFont(watermarkFont)
+
+    graphics.drawString(watermarkText, watermarkLeftPadding, x)
   }
 
   private def convertToShortLines(rawMessageText: String): List[Array[String]] = {

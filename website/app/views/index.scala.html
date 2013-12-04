@@ -14,39 +14,23 @@
 <form action="/picturize" method="post">
     <div class="field">
         <label for="text" class="mdnz-polyfill placeholder">Your message</label><!--
-     --><textarea id="text" name="text" placeholder="Your message"></textarea>
+     --><textarea id="text" name="text" placeholder="Your message" class="form-control"></textarea>
 
-        <p class="field-error" data-check="empty">Please input some text...</p>
+        <p class="field-error" data-check="empty"></p>
     </div>
 
-    <!-- <div>
-        <button>+</button>
-        <fieldset>
-            <div class="field">
-                <label for="img-width">Image width</label>
-                <input type="number" id="img-width" name="img-width" value="500" required />
-                <span>px</span>
-            </div>
-            <div class="field">
-                <label for="font-size">Font size</label>
-                <input type="number" id="font-size" name="font-size" value="16" required />
-                <span>pt</span>
-            </div>
-        </fieldset>
-    </div> -->
-
     <div class="submit-wrapper">
-        <input type="submit" value="Convert to image" />
+        <input type="submit" value="Convert to image" class="btn" />
     </div>
 </form>
 
 <section id="donate">
-    <h2>Please donate</h2>
+    <h2>Donations are welcome!</h2>
 
     <!-- PayPal -->
     <article>
-        <span class="donate-method">Paypal</span>
-        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+        <span class="donate-method paypal" title="Paypal">Paypal</span>
+        <form id="paypal-button" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
             <input type="hidden" name="cmd" value="_s-xclick">
             <input type="hidden" name="hosted_button_id" value="C6E3XPHCDQ8XJ">
             <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
@@ -55,22 +39,21 @@
     </article>
 
     <article>
-        <span class="donate-method">Bitcoin</span>
+        <span class="donate-method bitcoin" title="Bitcoin">Bitcoin</span>
         <span class="donate-address">1BD81aAucKPU26NsYf2sthVgWtR2KjuNYw</span>
     </article>
 
     <article>
-        <span class="donate-method">Litecoin</span>
+        <span class="donate-method litecoin" title="Litecoin">Litecoin</span>
         <span class="donate-address">LVNYXVhZzkzikbPHLVHW4RaiQP22eut6ux</span>
     </article>
 
-    <p>Donations will help me cover the following costs:
-        <ul>
-            <li>Domain name</li>
-            <li>Hosting</li>
-            <li>SSL certificate</li>
-        </ul>
-    </p>
+    <p class="list-header">Donations will help me cover the following costs:</p>
+    <ul>
+        <li>Domain name</li>
+        <li>Hosting</li>
+        <li>SSL certificate</li>
+    </ul>
 </section>
 
 } {

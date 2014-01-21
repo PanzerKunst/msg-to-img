@@ -1,21 +1,22 @@
 CBR.Controllers.Index = new Class({
-    Extends: CBR.Controllers.BaseController,
+    Extends:CBR.Controllers.BaseController,
 
-    initialize: function (options) {
+    initialize:function (options) {
+        this._redirectToHttps();
         this.parent(options);
     },
 
-    run: function () {
+    run:function () {
         this.initElements();
 
         // TODO if (!Modernizr.input.required) {
-            this._initValidation();
+        this._initValidation();
         //}
 
         this._initEvents();
     },
 
-    initElements: function () {
+    initElements:function () {
         this.parent();
 
         this.$form = jQuery("[action='/picturize']");
@@ -26,17 +27,36 @@ CBR.Controllers.Index = new Class({
         }
     },
 
-    _initValidation: function () {
+    // TODO: remove when it's possible to detect "https" from Play
+    _redirectToHttps:function () {
+        var url = location.href;
+        var protocolHostSeparator = "://";
+        var indexOfProtocolHostSeparator = url.indexOf(protocolHostSeparator);
+        var protocol = url.substring(0, indexOfProtocolHostSeparator);
+
+        if (protocol === "http") {
+            var hostAndPort = url.substring(indexOfProtocolHostSeparator + protocolHostSeparator.length);
+            var hostPortSeparator = ":";
+            var indexOfHostPortSeparator = hostAndPort.indexOf(hostPortSeparator);
+            var host = hostAndPort;
+            if (indexOfHostPortSeparator > -1) {
+                host = hostAndPort.substring(0, indexOfHostPortSeparator);
+            }
+            location.replace("https" + protocolHostSeparator + host);
+        }
+    },
+
+    _initValidation:function () {
         this.validator = new CBR.Services.Validator({
-            fieldIds: [
+            fieldIds:[
                 "text"
             ]
         });
     },
 
-    _initEvents: function () {
+    _initEvents:function () {
         // TODO if (!Modernizr.input.required) {
-            this.$form.submit(jQuery.proxy(this._doSubmit, this));
+        this.$form.submit(jQuery.proxy(this._doSubmit, this));
         //}
 
         if (Modernizr.localstorage) {
@@ -44,15 +64,15 @@ CBR.Controllers.Index = new Class({
         }
     },
 
-    _doSubmit: function (e) {
+    _doSubmit:function (e) {
         if (Modernizr.localstorage) {
-            localstorage.clear();
+            localStorage.clear();
         }
 
         return this.validator.isValid();
     },
 
-    _saveText: function(e) {
+    _saveText:function (e) {
         localStorage.setItem("text", this.$textarea.val());
     }
 });

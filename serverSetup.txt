@@ -62,33 +62,17 @@ For "Common Name (e.g. server FQDN or YOUR name)", enter "www.simplemessagepriva
 Copy key received by email into file ~/ssl_cert.cer
 
 
-#######################################
-# Import trusted cert into new keystore
-#######################################
+########################################
+# Import trusted certs into new keystore
+########################################
 
 $ keytool -genkey -keyalg RSA -alias SimpleMessagePrivacy -keystore simplemessageprivacy.jks
 
 Create PKCS12 keystore from private key and public certificate.
-$ openssl pkcs12 -export -name SimpleMessagePrivacy -in ssl_cert.cer -inkey simplemessageprivacy.key -out keystore.p12
+$ openssl pkcs12 -export -name SimpleMessagePrivacy -in ssl_cert.cer -inkey simplemessageprivacy.key -certfile cabundle.crt -out keystore.p12
 
 Convert PKCS12 keystore into a JKS keystore
 $ keytool -importkeystore -destkeystore simplemessageprivacy.jks -srckeystore keystore.p12 -srcstoretype pkcs12 -alias SimpleMessagePrivacy
-
-
-####################################
-# Add intermediate certs to keystore
-####################################
-
-As explained at https://knowledge.rapidssl.com/support/ssl-certificate-support/index?page=content&actp=CROSSLINK&id=SO16181 :
-$ vi primary_inter.cer
-Paste contents of https://knowledge.rapidssl.com/library/VERISIGN/INTERNATIONAL_AFFILIATES/RapidSSL/AR1548/Geotrust%20Cross%20Root%20CA.txt
-
-$ keytool -import -trustcacerts -alias primaryIntermediate -keystore simplemessageprivacy.jks -file primary_inter.cer
-
-$ vi secondary_inter.cer
-Paste contents of https://knowledge.rapidssl.com/library/VERISIGN/INTERNATIONAL_AFFILIATES/RapidSSL/AR1548/Rapid%20SSL%20CA.txt
-
-$ keytool -import -trustcacerts -alias secondaryIntermediate -keystore simplemessageprivacy.jks -file secondary_inter.cer
 
 
 ##################
@@ -97,4 +81,6 @@ $ keytool -import -trustcacerts -alias secondaryIntermediate -keystore simplemes
 
 Inside app dir, run:
 $ play
-$ start -Dhttp.port=disabled -Dhttps.port=9443 -Dhttps.keyStore=/home/play/simplemessageprivacy.jks -Dhttps.keyStorePassword=
+$ run -Dhttps.port=9443 -Dhttps.keyStore=/home/play/simplemessageprivacy.jks -Dhttps.keyStorePassword=
+
+("run" for auto reload, "start" for better perf)
